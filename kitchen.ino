@@ -41,28 +41,6 @@ void loop() {
 
   stepper.tick();
 
-  if (stopDownSensor.isPress()) // остановка фартука внизу ДАТЧИК - 0
-  {
-    stepper.brake();
-    Serial.println("stopDownSensor");
-    flag = false;
-  }
-
-  if (slowDownSpeed.isPress()) // замедление скорости внизу ДАТЧИК - 1
-  {
-    Serial.println("slowDownSpeed");
-  }  
-
-  if (slowUpSpeed.isPress()) { // замедление скорости вверху ДАТЧИК - 2
-    Serial.println("slowUpSpeed");
-  }
-
-  if (stopUpSensor.isPress()) { // остановка фартука вверху ДАТЧИК - 3
-    Serial.println("stopUpSensor");
-    stepper.brake();
-    flag = false;
-  }
-
   if (hand.isPress()) {
     Serial.println("hand sunul ruku STOP"); // проверка на руку
     stepper.brake();
@@ -101,5 +79,27 @@ void loop() {
       stepper.brake();
       flag = false;
     }
+  }
+
+  if (stopDownSensor.isPress()) {// остановка фартука внизу ДАТЧИК - 0
+    stepper.brake();
+    Serial.println("stopDownSensor");
+    flag = false;
+  }
+
+  if (slowDownSpeed.isPress()) { // замедление скорости внизу ДАТЧИК - 1  
+    stepper.setSpeed(200);
+    Serial.println("slowDownSpeed");
   }  
+
+  if (slowUpSpeed.isPress()) { // замедление скорости вверху ДАТЧИК - 2
+    stepper.setSpeed(-200);
+    Serial.println("slowUpSpeed");
+  }
+
+  if (stopUpSensor.isPress()) { // остановка фартука вверху ДАТЧИК - 3
+    Serial.println("stopUpSensor");
+    stepper.brake();
+    flag = false;
+  }
 }
