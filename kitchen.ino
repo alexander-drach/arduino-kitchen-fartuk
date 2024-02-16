@@ -15,7 +15,7 @@ GButton moveDown(8);
 
 GStepper<STEPPER2WIRE> stepper(200, 11, 10);
 
-int speed = 400;
+int speed = 800;
 
 bool flag = false;
 
@@ -23,7 +23,7 @@ void setup() {
   Serial.begin(9600);
 
   stepper.setRunMode(KEEP_SPEED);
-  stepper.setMaxSpeed(500);
+  stepper.setMaxSpeed(1500);
 }
 
 void loop() {
@@ -55,7 +55,6 @@ void loop() {
 
   if (slowUpSpeed.isPress()) { // замедление скорости вверху ДАТЧИК - 2
     Serial.println("slowUpSpeed");
-    stepper.setSpeed(speed);
   }
 
   if (stopUpSensor.isPress()) { // остановка фартука вверху ДАТЧИК - 3
@@ -79,7 +78,12 @@ void loop() {
     } else {
       stepper.setSpeed(speed);
       flag = true;
-    }    
+    }
+
+    if (stopUpSensor.isHold()) {
+      stepper.brake();
+      flag = false;
+    }   
   }
 
   if (moveDown.isPress()) { // движение фартука вниз
@@ -92,5 +96,10 @@ void loop() {
       stepper.setSpeed(-speed);
       flag = true;
     };
+
+    if (stopDownSensor.isHold()) {
+      stepper.brake();
+      flag = false;
+    }
   }  
 }
